@@ -1,5 +1,5 @@
 {
-  "name": "aave-demo",
+  "name": "switch",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -12,8 +12,8 @@
     "web-vitals": "^2.1.4",
     "@nomicfoundation/hardhat-toolbox": "^1.0.2",
     "@openzeppelin/contracts": "^4.7.3",
-    "dotenv": "^16.0.1"
-    "ethers": "^5.7.2",
+    "dotenv": "^16.0.1",
+    "ethers": "^5.7.2"
   },
   "scripts": {
     "start": "react-scripts start",
