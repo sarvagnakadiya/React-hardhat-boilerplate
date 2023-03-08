@@ -7,14 +7,12 @@
 const hre = require("hardhat");
 
 async function main() {
+  const stakeFactory = await hre.ethers.getContractFactory("stakeFIL");
+  const stake = await stakeFactory.deploy();
 
+  await stake.deployed();
 
-  const Lock = await hre.ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy();
-
-  await lock.deployed();
-
-  console.log("Contract deployed to:", lock.address);
+  console.log("Contract deployed to:", stake.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
