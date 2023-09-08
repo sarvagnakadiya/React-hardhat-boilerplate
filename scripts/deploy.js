@@ -1,22 +1,38 @@
-// We require the Hardhat Runtime Environment explicitly here. This is optional
-// but useful for running the script in a standalone fashion through `node <script>`.
-//
-// You can also run a script with `npx hardhat run <script>`. If you do that, Hardhat
-// will compile your contracts, add the Hardhat Runtime Environment's members to the
-// global scope, and execute the script.
+const fs = require("fs");
 const hre = require("hardhat");
 
 async function main() {
-  const stakeFactory = await hre.ethers.getContractFactory("stakeFIL");
+  const network = hre.network.name;
+  const timestamp = new Date().toISOString();
+
+  // contract name here
+  const contractName = "stakeFIL";
+  const stakeFactory = await hre.ethers.getContractFactory(contractName);
   const stake = await stakeFactory.deploy();
 
-  await stake.deployed();
+  const contractAddress = stake.address;
 
-  console.log("Contract deployed to:", stake.address);
+  const contractInfo = { contractName, network, timestamp, contractAddress };
+
+  // Load existing JSON data or initialize an empty array
+  let contractData = [];
+  try {
+    const existingData = fs.readFileSync("contracts.json", "utf8");
+    contractData = JSON.parse(existingData);
+  } catch (error) {
+    // File doesn't exist or is empty, initialize with an empty array
+    contractData = [];
+  }
+
+  contractData.push(contractInfo);
+
+  // Write the updated array back to the JSON file
+  fs.writeFileSync("contracts.json", JSON.stringify(contractData, null, 2));
+
+  console.log(`Contract "${contractName}" deployed to:`, contractAddress);
+  console.log("Network:", network);
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
 main().catch((error) => {
   console.error(error);
   process.exitCode = 1;
